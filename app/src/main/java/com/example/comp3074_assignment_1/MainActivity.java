@@ -18,12 +18,17 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editText;
+    private EditText editTextHours;
+    private EditText editTextHourlyRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        editTextHours = findViewById(R.id.inputHours);
+        editTextHourlyRate = findViewById(R.id.inputHourlyRate);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -34,17 +39,29 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.inputHours);
 
     }
+    // TODO: Update get hours function to get all info
     public void getHours(View view){
-        String s = editText.getText().toString();
+        // Store input as string values
+        String hoursStr = editTextHours.getText().toString();
+        String rateStr = editTextHourlyRate.getText().toString();
 
-        // Pop up message if input is invalid
-        if(s.isEmpty()){
-            Toast.makeText(this, "Enter a valid number of hours", Toast.LENGTH_SHORT)
+        // Alert user if input is invalid
+        if(hoursStr.isEmpty() || rateStr.isEmpty()){
+            Toast.makeText(this, "Please, enter a valid input", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
-        displayDialog(s);
+        // Convert values
+        double hours = Double.parseDouble(hoursStr);
+        double rate = Double.parseDouble(rateStr);
+
+        // Calculate pay
+        double pay = hours * rate;
+        String result = "Hour(s): " + hours +
+                        "\nRate: " + rate +
+                        "\nTotal pay: " + pay;
+        displayDialog(result);
     }
 
 
@@ -55,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("User input")
                 .setMessage(s)
                 .setNegativeButton("OK", null)
-                .setPositiveButton("show hours", (dialog, w)->{
+                .setPositiveButton("Show input", (dialog, w)->{
                     displaySnackbar(s);
                 })
                 .create()
