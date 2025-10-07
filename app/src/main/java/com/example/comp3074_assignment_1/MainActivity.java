@@ -1,7 +1,10 @@
 package com.example.comp3074_assignment_1;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "Activity_Lifecycle";
     private EditText editText;
     private EditText editTextHours;
     private EditText editTextHourlyRate;
@@ -36,10 +40,27 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        editText = findViewById(R.id.inputHours);
+        //editText = findViewById(R.id.inputHours);
+        Button button = findViewById(R.id.goToDetails);
+        button.setOnClickListener(view ->{
+            // Navigate from activity 1 to activity 2
+            Intent intent = new Intent(this, DetailActivity.class);
+            intent.putExtra("name", "detail activity");
+            startActivity(intent);
+
+            Toast
+                .makeText(this, "detail activity button clicked", Toast.LENGTH_LONG)
+                .show();
+        });
 
     }
-    // TODO: Update get hours function to get all info
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        Log.d(TAG, "onStart: Activity 1");
+    }
+
     public void getHours(View view){
         // Store input as string values
         String hoursStr = editTextHours.getText().toString();
@@ -119,6 +140,11 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setActionTextColor(ContextCompat.getColor(this, R.color.white))
                 .show();
+    }
+
+    private void goToDetails(View view){
+        Intent intent = new Intent(this, DetailActivity.class);
+        startActivity(intent);
     }
 
 
