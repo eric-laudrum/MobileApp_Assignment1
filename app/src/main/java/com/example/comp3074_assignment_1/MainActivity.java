@@ -52,15 +52,46 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        /*
+        * calculate the pay using the following formula
+            ▪ if no of hours is less or equal than 40 then pay=no_of_hours*hourly_rate
+            ▪ else, pay=(no_of_hours-40)*hourly_rate*1.5 + 40*hourly_rate
+        o calculate the tax using the following formula
+            ▪ tax=pay*0.18
+        * */
+        ///
+
         // Convert values
         double hours = Double.parseDouble(hoursStr);
         double rate = Double.parseDouble(rateStr);
 
-        // Calculate pay
-        double pay = hours * rate;
-        String result = "Hour(s): " + hours +
-                        "\nRate: " + rate +
-                        "\nTotal pay: " + pay;
+        double regularPay;
+        double overtimePay;
+        double takeHomePay;
+        double tax;
+        String result;
+
+        // Calculate overtime pay
+        if(hours <= 40){
+            regularPay = hours * rate;
+            overtimePay = 0;
+        }
+        else{
+            regularPay =  + (40 * rate);
+            overtimePay = (hours - 40) * (rate * 1.5);
+        }
+
+        tax = (regularPay + overtimePay) * 0.18;
+
+        takeHomePay = (regularPay + overtimePay) - tax;
+
+        result = "\nHours: " + hours +
+                "\nRate: " + rate +
+                "\nRegular Pay: " + regularPay +
+                "\nOvertime Pay: " + overtimePay +
+                "\nTax: " + tax +
+                "\nTotal Take Home Pay: " + takeHomePay;
+
         displayDialog(result);
     }
 
