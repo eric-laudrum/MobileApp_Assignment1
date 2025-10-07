@@ -54,7 +54,7 @@
 
     <!--*******  Hourly Rate   *******-->
     <EditText
-        android:id="@+id/inputHourlyRate"
+        android:id="@+id/inputRate"
         android:layout_width="0dp"
         android:layout_height="45dp"
 
@@ -81,7 +81,7 @@
         android:text="enter"
         android:onClick="getHours"
 
-        app:layout_constraintTop_toBottomOf="@id/inputHourlyRate"
+        app:layout_constraintTop_toBottomOf="@id/inputRate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 

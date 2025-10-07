@@ -1,25 +1,16 @@
 package com.example.comp3074_assignment_1;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
-
 
     @Override
     public void onClick(View v) {
@@ -27,7 +18,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent intent = null;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +31,30 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             return insets;
         });
 
-
         Intent intent = getIntent();
-        String name = intent.getStringExtra("name");
-        TextView textView = findViewById(R.id.name);
-        textView.setText(name);
+        double hours = intent.getDoubleExtra("hours", 0);
+        double rate = intent.getDoubleExtra("rate", 0);
+        double regularPay = intent.getDoubleExtra("regularPay", 0);
+        double overtimePay = intent.getDoubleExtra("overtimePay", 0);
+        double tax = intent.getDoubleExtra("tax", 0);
+        double netPay = intent.getDoubleExtra("netPay", 0);
+
+
+        // Dynamically Set values
+        TextView hoursView = findViewById(R.id.hours);
+
+        TextView rateView = findViewById(R.id.rate);
+        TextView regularPayView = findViewById(R.id.regularPay);
+        TextView overtimePayView = findViewById(R.id.overtimePay);
+        TextView taxView = findViewById(R.id.tax);
+        TextView netPayView = findViewById(R.id.netPay);
+
+        rateView.setText("Rate:  " + rate);
+        hoursView.setText("Hours:  " + hours);
+        regularPayView.setText("Regular Pay:  " + regularPay);
+        overtimePayView.setText("Overtime Pay:  " + overtimePay);
+        taxView.setText("Tax:  " + tax);
+        netPayView.setText("Net Pay:  " + netPay);
 
     }
 

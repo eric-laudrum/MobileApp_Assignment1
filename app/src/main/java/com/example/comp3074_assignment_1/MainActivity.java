@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Activity_Lifecycle";
     private EditText editText;
     private EditText editTextHours;
-    private EditText editTextHourlyRate;
+    private EditText editTextRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editTextHours = findViewById(R.id.inputHours);
-        editTextHourlyRate = findViewById(R.id.inputHourlyRate);
+        editTextRate = findViewById(R.id.inputRate);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void getHours(View view){
         // Store input as string values
         String hoursStr = editTextHours.getText().toString();
-        String rateStr = editTextHourlyRate.getText().toString();
+        String rateStr = editTextRate.getText().toString();
 
         // Alert user if input is invalid
         if(hoursStr.isEmpty() || rateStr.isEmpty()){
@@ -73,22 +73,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        /*
-        * calculate the pay using the following formula
-            ▪ if no of hours is less or equal than 40 then pay=no_of_hours*hourly_rate
-            ▪ else, pay=(no_of_hours-40)*hourly_rate*1.5 + 40*hourly_rate
-        o calculate the tax using the following formula
-            ▪ tax=pay*0.18
-        * */
-        ///
-
         // Convert values
         double hours = Double.parseDouble(hoursStr);
         double rate = Double.parseDouble(rateStr);
 
         double regularPay;
         double overtimePay;
-        double takeHomePay;
+        double netPay;
         double tax;
         String result;
 
@@ -104,16 +95,28 @@ public class MainActivity extends AppCompatActivity {
 
         tax = (regularPay + overtimePay) * 0.18;
 
-        takeHomePay = (regularPay + overtimePay) - tax;
+        netPay = (regularPay + overtimePay) - tax;
 
         result = "\nHours: " + hours +
                 "\nRate: " + rate +
                 "\nRegular Pay: " + regularPay +
                 "\nOvertime Pay: " + overtimePay +
                 "\nTax: " + tax +
-                "\nTotal Take Home Pay: " + takeHomePay;
+                "\nTotal Take Home Pay: " + netPay;
 
         displayDialog(result);
+
+        // Send result info to Detail Activity
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("hours", hours);
+        intent.putExtra("rate", rate);
+        intent.putExtra("regularPay", regularPay);
+        intent.putExtra("overtimePay", overtimePay);
+        intent.putExtra("tax", tax);
+        intent.putExtra("netPay", netPay);
+
+        startActivity(intent);
+
     }
 
 
